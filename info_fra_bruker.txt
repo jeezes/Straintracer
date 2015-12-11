@@ -1,4 +1,0 @@
-Bruker: Jonas
-location: Oslo
-Source: Kylling
-Date: Wed Dec 09 15:45:38 CET 2015

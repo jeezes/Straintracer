@@ -1,4 +1,7 @@
+package Segment_data
+
 import java.util.ArrayList;
+
 
 class SegmentDesc{
 	int segdesc_id;
