@@ -1,20 +1,20 @@
-package Segment_data
+package Segment_data;
 
 import java.util.ArrayList;
+import Allele_data.Gen;
 
-
-class SegmentDesc{
+public class SegmentDesc{
 	int segdesc_id;
 	String description;
 	Gen gen;
 
-	SegmentDesc(int id, String description){
+	public SegmentDesc(int id, String description){
 		this.segdesc_id = id;
 		this.description = description;
 		gen = null;
 	}
 
-	SegmentDesc(int id, String description, Gen g){
+	public SegmentDesc(int id, String description, Gen g){
 		this.segdesc_id = id;
 		this.description = description;
 		this.gen = g;
@@ -22,10 +22,11 @@ class SegmentDesc{
 
 	public int getId(){ return segdesc_id; }
 
-	public void print(){
-		System.out.println("SegmentDescID: " + segdesc_id + "\tDescription: " + description);
-	}
+	public String getDesc(){ return description; }
 
 	public Gen getGen(){ return gen; }
-	
+
+	public void print(){
+		System.out.println("SegmentDescID: " + segdesc_id + "\tDescription: " + description);
+	}	
 }

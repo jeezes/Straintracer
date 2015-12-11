@@ -1,9 +1,11 @@
-class Lokasjon{
+package Input_data;
+
+public class Lokasjon{
 	int lokasjons_id;
 	double latitude, longitude;
 	String gaard;
 
-	Lokasjon(int lokasjons_id, String gaard, double lat, double lon){
+	public Lokasjon(int lokasjons_id, String gaard, double lat, double lon){
 		this.lokasjons_id = lokasjons_id;
 		this.latitude = lat;
 		this.longitude = lon;
@@ -46,6 +48,10 @@ class Lokasjon{
 	}
 */
 	public int getId(){ return lokasjons_id; }
+
+	public Double getLatitude(){ return latitude; }
+
+	public Double getLongitude(){ return longitude; }
 
 	public String getGaard(){ return gaard; }
 

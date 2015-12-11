@@ -1,12 +1,14 @@
+package Sequence_data;
+
 import java.util.ArrayList;
 
-class Sekvenser{
+public class Sekvenser{
 	String sekvens;
 	ArrayList<SekvensDiff> meta;
 	int sekundær_id;
 	int sekvens_id;
 
-	Sekvenser(int sekvens_id, String sekvens){
+	public Sekvenser(int sekvens_id, String sekvens){
 		this.sekvens_id = sekvens_id;
 		meta = new ArrayList<SekvensDiff>();
 		this.sekvens = sekvens;
@@ -18,6 +20,10 @@ class Sekvenser{
 	}
 
 	public int getId(){ return sekvens_id; }
+
+	public String getSequence(){ return sekvens; }
+
+	public int getSecId(){ return sekundær_id; }
 
 	public void print(){
 		System.out.println("Sekvens_id: " + sekvens_id + "\nSekvens: " + sekvens);

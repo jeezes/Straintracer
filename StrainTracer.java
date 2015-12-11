@@ -2,6 +2,13 @@ import java.util.*;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import Input_data.*;
+import SNP_data.*;
+import Allele_data.*;
+import Analysis_data.*;
+import MLST_data.*;
+import Segment_data.*;
+import Sequence_data.*;
 
 /**
 Java program for generating values for all tables in the database.
@@ -20,7 +27,7 @@ class StrainTracer{
 	ArrayList<AnalyseSeg> analyseSeg;
 	ArrayList<Analyse> analyser;
 	ArrayList<SekvensDiff> sekvensDiff;
-	ArrayList<Segement> segmenter;
+	ArrayList<Segment> segmenter;
 	ArrayList<SegmentMeta> segmentMetaer;
 	ArrayList<SegmentType> segmentTyper;
 	ArrayList<Source> sources;
@@ -29,8 +36,8 @@ class StrainTracer{
 	ArrayList<Allele> alleler;
 	ArrayList<SetsDiff> setsDiffer;
 	//ArrayList<Sets> setser;
-	ArrayList<StProfile> stprofiler;
-	ArrayList<CcProfile> ccprofiler;
+	//ArrayList<StProfile> stprofiler;
+	//ArrayList<CcProfile> ccprofiler;
 	ArrayList<Profiles> profiles;
 	double[] coords;
 	//PsqlWriter pw;
@@ -46,7 +53,7 @@ class StrainTracer{
 		analyser = new ArrayList<Analyse>();
 		analyseSeg = new ArrayList<AnalyseSeg>();
 		sekvensDiff = new ArrayList<SekvensDiff>();
-		segmenter = new ArrayList<Segement>();
+		segmenter = new ArrayList<Segment>();
 		segmentMetaer = new ArrayList<SegmentMeta>();
 		segmentTyper = new ArrayList<SegmentType>();
 		sources = new ArrayList<Source>();
@@ -55,10 +62,10 @@ class StrainTracer{
 		alleler = new ArrayList<Allele>();
 		setsDiffer = new ArrayList<SetsDiff>();
 		//setser = new ArrayList<Sets>();
-		stprofiler = new ArrayList<StProfile>();
-		ccprofiler = new ArrayList<CcProfile>();
+		//stprofiler = new ArrayList<StProfile>();
+		//ccprofiler = new ArrayList<CcProfile>();
 		profiles = new ArrayList<Profiles>();
-		getCoords();
+		/*getCoords();
 		leggTilGaarder();
 		addGenes();
 		leggTilBrukere();
@@ -71,7 +78,7 @@ class StrainTracer{
 		analyseSegmenter(2, 0);
 		analysePunkter();
 		fyllProfiler();
-		lagreMeta();
+		lagreMeta();*/
 
 		//printLokasjoner();
 		//printBrukere();
@@ -90,9 +97,9 @@ class StrainTracer{
 		//printCc();
 		//printSetsDiff();
 
-		System.out.println("Lokajoner: " + lokasjoner.size());
+		//System.out.println("Lokajoner: " + lokasjoner.size());
 
-		toFile();
+		//toFile();
 	}
 
 	/**
@@ -103,67 +110,67 @@ class StrainTracer{
 			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
 			for(Bruker b: brukere){
 				writer.print("INSERT INTO contributor(firstname, lastname) ");
-				writer.println("VALUES('" + b.navn + "', '" + b.navn + "');");
+				writer.println("VALUES('" + b.getName() + "', '" + b.getName() + "');");
 			}
 			for(Lokasjon l: lokasjoner){
 				writer.print("INSERT INTO location(latitude, longitude, location_name) ");
-				writer.println("VALUES('" + l.latitude + "', '" + l.longitude + "', '" + l.gaard + "');");
+				writer.println("VALUES('" + l.getLatitude() + "', '" + l.getLongitude() + "', '" + l.getGaard() + "');");
 			}
 			for(Sekvenser s: sekvenser){
 				writer.print("INSERT INTO sequence(seq, secondary_id) ");
-				writer.println("VALUES('" + s.sekvens + "', '" + s.sekundær_id + "');");
+				writer.println("VALUES('" + s.getSequence() + "', '" + s.getSecId() + "');");
 			}
 			for(Source sour: sources){
 				writer.print("INSERT INTO source(source_name) ");
-				writer.println("VALUES('" + sour.source_name + "');");
+				writer.println("VALUES('" + sour.getName() + "');");
 			}
 			for(SekvensMeta sm: metaSekvenser){
 				writer.print("INSERT INTO sequence_meta(source_id, location_id, contributor_id, date_sampled) ");
-				writer.println("VALUES('" + sm.source.getId() + "', ' " + sm.lokasjon.getId() + "', '" + sm.contributor.getId() + "', '" + sm.date_created + "');");
+				writer.println("VALUES('" + sm.getSource().getId() + "', ' " + sm.getLocation().getId() + "', '" + sm.getContributor().getId() + "', '" + sm.getDate() + "');");
 			}
 			for(SekvensDiff sd: sekvensDiff){
 				writer.print("INSERT INTO sequence_diff(sequence_id, sequence_meta_id) ");
-				writer.println("VALUES('" + sd.sekvens.getId() + "', '" + sd.meta.getId() + "');");
+				writer.println("VALUES('" + sd.getSequence().getId() + "', '" + sd.getMeta().getId() + "');");
 			}
 			for(Analyse a: analyser){
 				writer.print("INSERT INTO analysis(method, analysis_date) ");
-				writer.println("VALUES('" + a.metode + "', '" + a.date_created + "');"); 
+				writer.println("VALUES('" + a.getMethod() + "', '" + a.getDate() + "');"); 
 			}
 			for(AnalyseSeg as: analyseSeg){
 				writer.print("INSERT INTO analysis_sequences(analysis_id, sequence_diff_id) ");
-				writer.println("VALUES('" + as.analyse.getId() + "', '" + as.sekDiff.getId() + "');");
+				writer.println("VALUES('" + as.getAnalyse().getId() + "', '" + as.getSekDiff().getId() + "');");
 			}
-			for(Segement seg: segmenter){
+			for(Segment seg: segmenter){
 				writer.print("INSERT INTO segment(start, stop, subsequence) ");
-				writer.println("VALUES('" + seg.start + "', '" + seg.stop + "', '" + seg.subsekvens + "');");
+				writer.println("VALUES('" + seg.getStart() + "', '" + seg.getStop() + "', '" + seg.getSequence() + "');");
 			}
 			for(PunkterMeta pm: snpMeta){
 				writer.print("INSERT INTO point_meta(analysis_id, seq_diff_1, seq_diff_2) ");
-				writer.println("VALUES('" + pm.analyse.getId() + "', '" + pm.sekvens[0].getId() + "', '" + pm.sekvens[1].getId() + "');");
+				writer.println("VALUES('" + pm.getAnalyse().getId() + "', '" + pm.getSequence1().getId() + "', '" + pm.getSequence2().getId() + "');");
 			}
 			for(Punkter p: snper){
 				writer.print("INSERT INTO point(posision, point_meta_id, char1, char2) ");
-				writer.println("VALUES('" + p.posisjon + "', '" + p.meta.getId() + "', '" + p.nuc1 + "', '" + p.nuc2 + "');");
+				writer.println("VALUES('" + p.getPosition() + "', '" + p.getMeta().getId() + "', '" + p.getNuc1() + "', '" + p.getNuc2() + "');");
 			}
 			for(SegmentMeta smeta: segmentMetaer){
 				writer.print("INSERT INTO segment_meta(analysis_id) ");
-				writer.println("VALUES('" + smeta.analyse.getId() + "');");
+				writer.println("VALUES('" + smeta.getAnalyse().getId() + "');");
 			}
 			for(Gen g: gener){
 				writer.print("INSERT INTO gen(gen_name, resistant_to) ");
-				writer.println("VALUES('" + g.genName + "', '" + g.resistantTo + "');");
+				writer.println("VALUES('" + g.getName() + "', '" + g.getResistantTo() + "');");
 			}
 			for(SegmentDesc desc: segment_descs){
 				writer.print("INSERT INTO segment_description(gen_id, description) ");
-				writer.println("VALUES('" + desc.gen.getId() + "', '" + desc.description + "');");
+				writer.println("VALUES('" + desc.getGen().getId() + "', '" + desc.getDesc() + "');");
 			}
 			for(SegmentType st: segmentTyper){
 				writer.print("INSERT INTO segment_type(segment_id, segment_meta_id, segment_description_id, sequence_diff_id) ");
-				writer.println("VALUES('" + st.segment.getId() + "', '" + st.meta.getId() + "', '" + st.segmentDescription.getId() + "', '" + st.sekvens.getId() + "');");
+				writer.println("VALUES('" + st.getSegment().getId() + "', '" + st.getMeta().getId() + "', '" + st.getDesc().getId() + "', '" + st.getSekDiff().getId() + "');");
 			}
 			for(Allele a: alleler){
 				writer.print("INSERT INTO allele(gen_id, segment_type_id, date_created) ");
-				writer.println("VALUES('" + a.gen.getId() + "', '" + a.segementType.getId() + "', '" + a.date_created + "');");
+				writer.println("VALUES('" + a.getGen().getId() + "', '" + a.getType().getId() + "', '" + a.getDate() + "');");
 			}
 			/*for(Sets sets: setser){
 				writer.print("INSERT INTO sets(allele_id) ");
@@ -174,14 +181,14 @@ class StrainTracer{
 			}
 			for(CcProfile ccp: ccprofiler){
 				writer.println("INSERT INTO cc_profile(number_of_genes) VALUES('" + ccp.getAntallGener() + "');");
-			}*/
+			}*/ 
 			for(Profiles prof: profiles){
 				writer.print("INSERT INTO profiles(profile_name, date_created) ");
-				writer.println("VALUES('" + prof.profile_name + "', '" + prof.date_created + "');");
+				writer.println("VALUES('" + prof.getName() + "', '" + prof.getDate() + "');");
 			}
 			for(SetsDiff sdd: setsDiffer){
 				writer.print("INSERT INTO sets_diff(allele_id, profile_id) ");
-				writer.println("VALUES('" + sdd.allele.getId() + "', '" + sdd.profile.getId() + "');");
+				writer.println("VALUES('" + sdd.getAllele().getId() + "', '" + sdd.getProfile().getId() + "');");
 			}
 			
 			writer.close();
@@ -215,7 +222,7 @@ class StrainTracer{
 
 	/**
 	Reads 'metasekvenser.txt' containing idenifiers from location, source and contributor.
-	**/
+	**/ 
 	public void lastInnMeta(){
 		try{
 			Scanner inn = new Scanner(new File("metasekvenser.txt"));
@@ -261,11 +268,11 @@ class StrainTracer{
 			PrintWriter writer = new PrintWriter("metasekvenser.txt", "UTF-8");
 			writer.println("SekvensMeta");
 			for(SekvensMeta sm: metaSekvenser){
-				writer.println(sm.getId() + ";" + sm.contributor.getId() + ";" + sm.lokasjon.getId() + ";" + sm.source.getId());
+				writer.println(sm.getId() + ";" + sm.getContributor().getId() + ";" + sm.getLocation().getId() + ";" + sm.getSource().getId());
 			}
 			writer.println("SekvensDiff");
 			for(SekvensDiff sd: sekvensDiff){
-				writer.println(sd.getId() + ";" + sd.sekvens.getId() + ";" + sd.meta.getId());
+				writer.println(sd.getId() + ";" + sd.getSequence().getId() + ";" + sd.getMeta().getId());
 			}
 			writer.close();
 		}catch(Exception e){
@@ -276,7 +283,7 @@ class StrainTracer{
 
 	/**
 	Generates the different profiles and sets
-	**/
+	**//*
 	public void fyllProfiler(){
 		int tmpGenId = 0;
 		for(SegmentType st: segmentTyper){
@@ -295,7 +302,7 @@ class StrainTracer{
 			SetsDiff sdiff = new SetsDiff(a, prof);
 			setsDiffer.add(sdiff);
 		}
-	}
+	}*/
 
 	/**
 	Prints all sets_diff
@@ -309,22 +316,22 @@ class StrainTracer{
 	/**
 	Prints all ST-profiles
 	Not used
-	**/
+	**//*
 	public void printSt(){
 		for(StProfile st: stprofiler){
 			st.print();
 		}
-	}
+	}*/
 
 	/**
 	Prints all CC-profiles
 	not used
-	**/
+	**//*
 	public void printCc(){
 		for(CcProfile cc: ccprofiler){
 			cc.print();
 		}
-	}
+	}*/
 
 	/**
 	Prints all allele values
@@ -401,8 +408,8 @@ class StrainTracer{
 		analyseSeg.add(a1);
 		analyseSeg.add(a2);
 		int start = 0, stop = 0;
-		String t1 = s1.sekvens.sekvens;//Selve sekvensen
-		String t2 = s2.sekvens.sekvens;//Selve sekvensen
+		String t1 = s1.getSequence().getSequence();//Selve sekvensen
+		String t2 = s2.getSequence().getSequence();//Selve sekvensen
 		String sub = "";
 		for(int i = 0; i < t1.length(); i++){
 			if(t1.charAt(i) != t2.charAt(i) && start == stop){
@@ -423,13 +430,13 @@ class StrainTracer{
 					stop = 0;
 				}else{
 					if(!sub.equals("")){
-						Segement segment = new Segement(segment_id++, sub, null, start, stop+1);
+						Segment segment = new Segment(segment_id++, sub, null, start, stop+1);
 						SegmentMeta segment_meta = new SegmentMeta(segmentMeta_id++, a, null, s1);
 						SegmentDesc segment_desc = new SegmentDesc(segment_desc_id++, "TESTTEST", gener.get(0));
 						segment_descs.add(segment_desc);
 						SegmentType segType = new SegmentType(segmentType_id++, segment, segment_meta, segment_desc, s1);
-						segment.segmentType = segType;
-						segment_meta.segmentType = segType;
+						segment.addType(segType);
+						segment_meta.addType(segType);
 						segmenter.add(segment);
 						segmentMetaer.add(segment_meta);
 						segmentTyper.add(segType);
@@ -451,7 +458,7 @@ class StrainTracer{
 
 	/**
 	Prints all segment descriptions
-	**/
+	**/ 
 	public void printDesc(){
 		for(SegmentDesc sd: segment_descs){
 			sd.print();
@@ -472,7 +479,7 @@ class StrainTracer{
 
 	/**
 	Prints all sequence diff
-	**/
+	**/ 
 	public void printSekDiff(){
 		for(SekvensDiff sd : sekvensDiff){
 			sd.print();
@@ -491,11 +498,11 @@ class StrainTracer{
 		AnalyseSeg analyse2 = new AnalyseSeg(ana_seg_id++, a, s2);
 		analyseSeg.add(analyse1);
 		analyseSeg.add(analyse2);
-		for(int i = 0; i < s1.sekvens.sekvens.length(); i++){
-			if(s1.sekvens.sekvens.charAt(i) != s2.sekvens.sekvens.charAt(i)){
+		for(int i = 0; i < s1.getSequence().getSequence().length(); i++){
+			if(s1.getSequence().getSequence().charAt(i) != s2.getSequence().getSequence().charAt(i)){
 				// SNP funnet. Ikke helt riktig metode altså...
 				PunkterMeta pm = new PunkterMeta(punkter_meta++, a, s1, s2);
-				Punkter p = new Punkter(snp_id++, s1.sekvens.sekvens.charAt(i), s2.sekvens.sekvens.charAt(i), i, pm);
+				Punkter p = new Punkter(snp_id++, s1.getSequence().getSequence().charAt(i), s2.getSequence().getSequence().charAt(i), i, pm);
 				snper.add(p);
 				snpMeta.add(pm);
 			}
@@ -504,7 +511,7 @@ class StrainTracer{
 
 	/**
 	Prints all SNPs
-	**/
+	**/ 
 	public void printPunkter(){
 		if(snper.size() != 0){
 			for(Punkter p: snper){
@@ -543,7 +550,7 @@ class StrainTracer{
 	/**
 	Genetares metadata for the last 50% sequences. Makes it possible to have one instance of metadata to be related to multiple instances of sequences
 	Should only be used in case of 'metasekvenser.txt' is corrupt/deleted
-	**/
+	**/ 
 	public void leggTilFlereSekIMeta(){
 		for(int i = sekvenser.size()/2; i < sekvenser.size(); i++){
 			SekvensMeta sm = getRandomMeta();
@@ -556,7 +563,7 @@ class StrainTracer{
 
 	/**
 	Returns a random sequence meta object
-	**/
+	**/ 
 	public SekvensMeta getRandomMeta(){
 		Random r = new Random();
 		int min = 0, max = metaSekvenser.size();
@@ -615,7 +622,7 @@ class StrainTracer{
 
 	/**
 	Adds farm names from 'gaarder.txt' and generates new location objects
-	**/
+	**/ 
 	public void leggTilGaarder(){
 		try{
 			Scanner inn = new Scanner(new File("gaarder.txt"));
@@ -633,7 +640,7 @@ class StrainTracer{
 
 	/**
 	Adds contributors from 'brukere.txt' and generates new contributor objects
-	**/
+	**/ 
 	public void leggTilBrukere(){
 		try{
 			Scanner inn = new Scanner(new File("brukere.txt"));
@@ -651,7 +658,7 @@ class StrainTracer{
 
 	/**
 	Prints all locations
-	**/
+	**/ 
 	public void printLokasjoner(){
 		for(Lokasjon l : lokasjoner){
 			l.print();
@@ -660,7 +667,7 @@ class StrainTracer{
 
 	/**
 	Prints all contributors
-	**/
+	**/ 
 	public void printBrukere(){
 		for(Bruker b: brukere){
 			b.print();

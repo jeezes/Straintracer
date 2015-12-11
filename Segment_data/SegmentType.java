@@ -1,11 +1,15 @@
-class SegmentType{
+package Segment_data;
+
+import Sequence_data.SekvensDiff;
+
+public class SegmentType{
 	int st_id;
-	Segement segment;
+	Segment segment;
 	SegmentMeta meta;
 	SegmentDesc segmentDescription;
 	SekvensDiff sekvens;
 
-	SegmentType(int id, Segement s, SegmentMeta m, SegmentDesc sd, SekvensDiff diff){
+	public SegmentType(int id, Segment s, SegmentMeta m, SegmentDesc sd, SekvensDiff diff){
 		this.st_id = id;
 		this.segment = s;
 		this.meta = m;
@@ -14,6 +18,14 @@ class SegmentType{
 	}
 
 	public int getId(){ return st_id; }
+
+	public Segment getSegment(){ return segment; }
+
+	public SegmentMeta getMeta(){ return meta; }
+
+	public SegmentDesc getDesc(){ return segmentDescription; }
+
+	public SekvensDiff getSekDiff(){ return sekvens; }
 
 	public void print(){
 		System.out.println("SegmentTypeID: " + st_id + "\tSegmentID: " + segment.segment_id + "\tSegmentMetaID: " + meta.meta_id + "\tSekvensDiff: " + sekvens.getId());

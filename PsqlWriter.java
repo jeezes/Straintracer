@@ -21,7 +21,7 @@ class PsqlWriter{
 			//getContributors();
 			//printProfiles();
 			//printSequences();
-			printAnalysis(); // and results from each
+			//printAnalysis(); // and results from each
 			
 			
 			//addTables();
@@ -39,7 +39,7 @@ class PsqlWriter{
 	**/
 	public void printAnalysis(){
 		try{
-			String sql = "select"
+			String sql = "select";
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -49,7 +49,7 @@ class PsqlWriter{
 	/**
 	Prints all sequences
 	**/
-	public void printSequences(){
+	/*public void printSequences(){
 		try{
 			String sql = "select sequence_id, seq, secondary_id from sequence;";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -63,7 +63,7 @@ class PsqlWriter{
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 	/**
 	Adds all tables, relations and foreign keys to a database

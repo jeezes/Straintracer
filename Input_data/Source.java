@@ -1,11 +1,15 @@
-class Source{
+package Input_data;
+
+public class Source{
 	int source_id;
 	String source_name;
 
-	Source(int id, String name){
+	public Source(int id, String name){
 		this.source_id = id;
 		this.source_name = name;
 	}
+
+	public String getName(){ return source_name; }
 
 	public void print(){
 		System.out.println("SourceID: " + source_id + "\tSource_name: " + source_name);

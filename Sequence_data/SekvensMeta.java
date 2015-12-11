@@ -1,8 +1,11 @@
+package Sequence_data;
+
 import java.util.*;
 import java.io.*;
 import java.text.*;
+import Input_data.*;
 
-class SekvensMeta{
+public class SekvensMeta{
 	int meta_id;
 	Bruker contributor;
 	ArrayList<SekvensDiff> sekDiff;
@@ -10,7 +13,7 @@ class SekvensMeta{
 	Source source;
 	Date date_created;
 
-	SekvensMeta(int meta_id, Bruker contributor, Source source, Lokasjon lokasjon){
+	public SekvensMeta(int meta_id, Bruker contributor, Source source, Lokasjon lokasjon){
 		this.meta_id = meta_id;
 		this.contributor= contributor;
 		this.source = source;
@@ -26,7 +29,15 @@ class SekvensMeta{
 
 	public int getId(){ return meta_id; }
 
+	public Bruker getContributor(){ return contributor; }
+
+	public Lokasjon getLocation(){ return lokasjon; }
+
+	public Source getSource(){ return source; }
+
+	public Date getDate(){ return date_created;	}
+
 	public void print(){
-		System.out.print("Meta_id: " + meta_id + "\tSource: " + source.source_name + "\tLokasjon: " + lokasjon.lokasjons_id + "\tBruker: " + contributor.bruker_id + "\tDate created: " + date_created);
+		System.out.print("Meta_id: " + meta_id + "\tSource: " + source.getName() + "\tLokasjon: " + lokasjon.getId() + "\tBruker: " + contributor.getId() + "\tDate created: " + date_created);
 	}
 }

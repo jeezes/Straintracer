@@ -1,13 +1,15 @@
+package MLST_data;
+
 import java.util.*;
 import java.io.*;
 import java.text.*;
 
-class Profiles{
+public class Profiles{
 	String profile_name;
 	int profile_id;
 	Date date_created;
 
-	Profiles(int id, String name){
+	public Profiles(int id, String name){
 		this.profile_id = id;
 		this.profile_name = name;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -19,4 +21,8 @@ class Profiles{
 	}
 
 	public int getId(){ return profile_id; }
+
+	public String getName(){ return profile_name; }
+
+	public Date getDate(){ return date_created; }
 }

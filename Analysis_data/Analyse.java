@@ -1,20 +1,24 @@
+package Analysis_data;
+
 import java.util.*;
 import java.io.*;
 import java.text.*;
+import SNP_data.Punkter;
+import Segment_data.Segment;
 
-class Analyse{
+public class Analyse{
 	int analyse_id;
 	ArrayList<AnalyseSeg> sekvenserBrukt;
 	ArrayList<Punkter> punkter;
-	ArrayList<Segement> segmenter;
+	ArrayList<Segment> segmenter;
 	String metode;
 	Date date_created;
 
-	Analyse(int analyse_id){
+	public Analyse(int analyse_id){
 		this.analyse_id = analyse_id;
 		metode = "SNP";
 		punkter = new ArrayList<Punkter>();
-		segmenter = new ArrayList<Segement>();
+		segmenter = new ArrayList<Segment>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		date_created = new Date();
 	}
@@ -25,7 +29,11 @@ class Analyse{
 
 	public int getId(){ return analyse_id; }
 
-	public ArrayList<Segement> getSegmenter(){
+	public String getMethod(){ return metode; }
+
+	public Date getDate(){ return date_created; }
+
+	public ArrayList<Segment> getSegmenter(){
 		return segmenter;
 	}
 }
