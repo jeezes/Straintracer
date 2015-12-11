@@ -47,25 +47,6 @@ class PsqlWriter{
 	}
 
 	/**
-	Prints all sequences
-	**/
-	/*public void printSequences(){
-		try{
-			String sql = "select sequence_id, seq, secondary_id from sequence;";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-				int id = rs.getInt("sequence_id");
-				String seq = rs.getString("seq");
-				int sec_id = rs.getInt("secondary_id");
-				System.out.println("ID: " + id + "\tSecondary id: " + sec_id + "\nSequence: " + seq);
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}*/
-
-	/**
 	Adds all tables, relations and foreign keys to a database
 	The SQL script for the db can be found at Straintraces.sql
 	**/
