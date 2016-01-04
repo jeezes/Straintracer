@@ -172,16 +172,6 @@ class StrainTracer{
 				writer.print("INSERT INTO allele(gen_id, segment_type_id, date_created) ");
 				writer.println("VALUES('" + a.getGen().getId() + "', '" + a.getType().getId() + "', '" + a.getDate() + "');");
 			}
-			/*for(Sets sets: setser){
-				writer.print("INSERT INTO sets(allele_id) ");
-				writer.println("VALUES('" + sets.allele.getId() + "');");
-			}*/
-			/*for(StProfile stp: stprofiler){
-				writer.println("INSERT INTO st_profile(number_of_genes) VALUES('" + stp.getAntallGener() + "');");
-			}
-			for(CcProfile ccp: ccprofiler){
-				writer.println("INSERT INTO cc_profile(number_of_genes) VALUES('" + ccp.getAntallGener() + "');");
-			}*/ 
 			for(Profiles prof: profiles){
 				writer.print("INSERT INTO profiles(profile_name, date_created) ");
 				writer.println("VALUES('" + prof.getName() + "', '" + prof.getDate() + "');");
@@ -646,7 +636,7 @@ class StrainTracer{
 			Scanner inn = new Scanner(new File("brukere.txt"));
 			while(inn.hasNext()){
 				String navn = inn.nextLine();
-				Bruker b = new Bruker(bruker_id++, navn);
+				Bruker b = new Bruker(bruker_id++, navn, navn);
 				brukere.add(b);
 			}
 

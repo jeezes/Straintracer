@@ -1,8 +1,8 @@
 package Input_data;
 
 public class Source{
-	int source_id;
-	String source_name;
+	private int source_id;
+	private String source_name;
 
 	public Source(int id, String name){
 		this.source_id = id;

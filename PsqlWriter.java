@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.Scanner;
 import java.io.File;
+import java.util.ArrayList;
+import Input_data.*;
 
 class PsqlWriter{
 	Connection c = null;
@@ -73,6 +75,24 @@ class PsqlWriter{
 			e.printStackTrace();
 		}
 	}
+	
+	public void addContributor(Bruker bruker){
+		try{
+			String sql = "INSERT INTO contributor(firstname, lastname) values('" + bruker.getFirstName() + "', '" + bruker.getLastName() + "');";
+			stmt.executeUpdate(sql);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void addSource(Source source){
+		try{
+			String sql 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	
+	}
 
 	/**
 	Populates the table with dummy data from 'the-file-name.txt'
@@ -93,20 +113,39 @@ class PsqlWriter{
 	/**
 	Prints all locations stored in the db
 	**/
-	public void getLocations() throws Exception{
-		String sql = "select source_id, source_name from source;";
+	public void printLocations() throws Exception{
+		String sql = "select location_id, source_name from source;";
 		ResultSet rs = stmt.executeQuery(sql);
 		while(rs.next()){
-			int id = rs.getInt("source_id");
-			String name = rs.getString("source_name");	
+			int id = rs.getInt("location_id");
+			String name = rs.getString("location_name");	
 			System.out.println("id: " + id + "\tName: " + name);
 		}
+	}
+	
+	public ArrayList<Lokasjon> getLocations(){
+		try{
+			ArrayList<Lokasjon> locations = new ArrayList<Lokasjon>();
+			String sql = "Select location_id, location_name, latitude, longitude from location;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				int id = rs.getInt("location_id");
+				String name = rs.getString("location_name");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				locations.add(new Lokasjon(id, name, latitude, longitude));
+			}
+			return locations;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
 	Prints all contributors in the db
 	**/
-	public void getContributors() throws Exception{
+	public void printContributors() throws Exception{
 		String sql = "select contributor_id, firstname, lastname from contributor;";
 		ResultSet rs = stmt.executeQuery(sql);
 		while(rs.next()){
@@ -115,6 +154,24 @@ class PsqlWriter{
 			String lastname = rs.getString("lastname");
 			System.out.println("ID: " + id + "\tFirst name: " + firstname + "\tLast name: " + lastname);
 		}
+	}
+
+	public ArrayList<Bruker> getContributors(){
+		try{
+			ArrayList<Bruker> brukere = new ArrayList<Bruker>();
+			String sql = "select contributor_id, firstname, lastname from contributor;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				int id = rs.getInt("contributor_id");
+				String firstname = rs.getString("firstname");
+				String lastname = rs.getString("lastname");
+				brukere.add(new Bruker(id, firstname, lastname));
+			}
+			return brukere;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -143,6 +200,18 @@ class PsqlWriter{
 			String name = rs.getString("source_name");
 			System.out.println("ID: " + id + "\tSource name: " + name);
 		}
+	}
+
+	public ArrayList<Source> getSources() throws Exception{
+		ArrayList<Source> sources = new ArrayList<Source>();
+		String sql = "select source_id, source_name from source;";
+		ResultSet rs = stmt.executeQuery(sql);
+		while(rs.next()){
+			int id = rs.getInt("source_id");
+			String name = rs.getString("source_name");
+			sources.add(new Source(id, name));
+		}
+		return sources;
 	}
 
 	/**
@@ -189,9 +258,9 @@ class PsqlWriter{
 			System.out.println("Profile id: " + pid + "\tAllele id: " + aid + "\tGen id: " + gid);
 		}
 	}
-
+/*
 	public static void main(String[] args){
 		new PsqlWriter();
-	}
+	}*/
 
 }
