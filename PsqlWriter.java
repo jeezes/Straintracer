@@ -86,11 +86,11 @@ class PsqlWriter{
 	}
 	
 	public void addSource(Source source){
-		try{
+		/*try{
 			String sql 
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
 	
 	}
 

@@ -65,15 +65,16 @@ class StrainTracer{
 		//stprofiler = new ArrayList<StProfile>();
 		//ccprofiler = new ArrayList<CcProfile>();
 		profiles = new ArrayList<Profiles>();
-		/*getCoords();
+		getCoords();
 		leggTilGaarder();
 		addGenes();
 		leggTilBrukere();
-		leggTilSekvenser();
-		//lagMetaForSekvenser();
-		//leggTilFlereSekIMeta();
-		lastInnMeta();
-		analyseSegmenter(0, 1);
+		leggTilSekvenser("Sequence_data/sekvenser.txt");
+		leggTilSekvenser("Sequence_data/sekvenser1.txt");
+		lagMetaForSekvenser();
+		leggTilFlereSekIMeta();
+		/*lastInnMeta();
+		/*analyseSegmenter(0, 1);
 		analyseSegmenter(1, 2);
 		analyseSegmenter(2, 0);
 		analysePunkter();
@@ -99,7 +100,7 @@ class StrainTracer{
 
 		//System.out.println("Lokajoner: " + lokasjoner.size());
 
-		//toFile();
+		toFile();
 	}
 
 	/**
@@ -193,7 +194,7 @@ class StrainTracer{
 	**/
 	public void getCoords(){
 		try{
-			Scanner inn = new Scanner(new File("coordinates.txt"));
+			Scanner inn = new Scanner(new File("Input_data/coordinates.txt"));
 			int coordsIndex = 0;
 			while(inn.hasNext()){
 				String[] lest = inn.nextLine().split("\t");
@@ -215,7 +216,7 @@ class StrainTracer{
 	**/ 
 	public void lastInnMeta(){
 		try{
-			Scanner inn = new Scanner(new File("metasekvenser.txt"));
+			Scanner inn = new Scanner(new File("Sequence_data/metasekvenser.txt"));
 			boolean leserMeta = true;
 			inn.nextLine();
 			Source kylling = new Source(source_id++, "Kylling");
@@ -362,7 +363,7 @@ class StrainTracer{
 	**/
 	public void addGenes(){
 		try{
-			Scanner inn = new Scanner(new File("bakterier_gen.txt"));
+			Scanner inn = new Scanner(new File("Input_data/bakterier_gen.txt"));
 			while(inn.hasNext()){
 				String navn = inn.nextLine();
 				Gen gen = new Gen(gen_id++, navn, "something");
@@ -580,10 +581,10 @@ class StrainTracer{
 
 	/**
 	Adds dummy sequences from 'sekvenser.txt' and generates new sequence objects
-	**/
-	public void leggTilSekvenser(){
+	**//*
+	public void leggTilSekvenser(String file){
 		try{
-			Scanner inn = new Scanner(new File("sekvenser.txt"));
+			Scanner inn = new Scanner(new File(file));
 			while(inn.hasNext()){
 				String linje = inn.nextLine();
 				if(linje.length() != 0){
@@ -599,6 +600,11 @@ class StrainTracer{
 			e.printStackTrace();
 			System.out.println("Kan ikke legge til sekvenser");
 		}
+	}*/
+
+	public void leggTilSekvenser(String file){
+		Sekvenser s = new Sekvenser(sekvens_id++, file);
+		sekvenser.add(s);
 	}
 
 	/**
@@ -615,7 +621,7 @@ class StrainTracer{
 	**/ 
 	public void leggTilGaarder(){
 		try{
-			Scanner inn = new Scanner(new File("gaarder.txt"));
+			Scanner inn = new Scanner(new File("Input_data/gaarder.txt"));
 			int i = 0;
 			while(inn.hasNext()){
 				String[] input = inn.nextLine().split(" ");
@@ -633,7 +639,7 @@ class StrainTracer{
 	**/ 
 	public void leggTilBrukere(){
 		try{
-			Scanner inn = new Scanner(new File("brukere.txt"));
+			Scanner inn = new Scanner(new File("Input_data/brukere.txt"));
 			while(inn.hasNext()){
 				String navn = inn.nextLine();
 				Bruker b = new Bruker(bruker_id++, navn, navn);
