@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
 import Input_data.*;
+import Allele_data.Gen;
+import Sequence_data.*;
 
 class PsqlWriter{
 	Connection c = null;
@@ -24,6 +26,7 @@ class PsqlWriter{
 			//printProfiles();
 			//printSequences();
 			//printAnalysis(); // and results from each
+			//addGenesAndAlleles();
 			
 			
 			//addTables();
@@ -75,6 +78,59 @@ class PsqlWriter{
 			e.printStackTrace();
 		}
 	}
+
+	public void addGenesAndAlleles(){
+		try{
+			Scanner reader = new Scanner(new File("glnA.tfa"));
+			String name = "";
+			String seq = "";
+			Gen gen = null;
+			while(reader.hasNext()){
+				String line = reader.nextLine();
+				if(line.charAt(0) == '>'){
+					if(!seq.equals("")){
+						gen = addGene(name, seq);
+					}
+					name = line.split("_")[0];
+					name = name.substring(1, name.length());
+					seq = "";
+				}else{
+					seq += reader.nextLine();
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Gen addGene(String name, String seq){
+		Gen gen = getGen(name);
+		if(gen == null){
+			try{
+				String sql = "insert into gen(gen_name, resistant_to) values('" + name + "', 'something');";
+				stmt.executeUpdate(sql);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return gen;
+	}
+	
+	public Gen getGen(String name){
+		Gen gen = null;
+		try{
+			String sql = "select gen_id, gen_name from gen where gen_name = '" + name + "';";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				int id = rs.getInt("gen_id");
+				String gen_name = rs.getString("gen_name");
+				gen = new Gen(id, gen_name, "something");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return gen;
+	}
 	
 	public void addContributor(Bruker bruker){
 		try{
@@ -86,12 +142,32 @@ class PsqlWriter{
 	}
 	
 	public void addSource(Source source){
-		/*try{
-			String sql 
+		try{
+			String sql = "insert into source(source_name) values('" + source.getName() + "');";
+			stmt.executeUpdate(sql);
 		}catch(Exception e){
 			e.printStackTrace();
-		}*/
+		}
 	
+	}
+	
+	public void addSequence(String file){
+		try{
+			System.out.println(file);
+			String sql = "insert into sequence(seq, secondary_id) values('" + file + "', '10')";
+			stmt.executeUpdate(sql);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void addLocation(Lokasjon l){
+		try{
+			String sql = "insert into location(latitude, longitude, location_name) values('" + l.getLatitude() + "', '" + l.getLongitude() + "', '" + l.getGaard() + "');";
+			stmt.executeUpdate(sql);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -190,6 +266,29 @@ class PsqlWriter{
 	}
 
 	/**
+	Gets all unassemblyed sequences from the db
+	**/
+	public ArrayList<Sekvenser> getSequences(){
+		ArrayList<Sekvenser> sequences = new ArrayList<Sekvenser>();
+		try{
+			String sql = "select sequence_id, seq, secondary_id from sequence;";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				int id = rs.getInt("sequence_id");
+				String file = rs.getString("seq");
+				int sec = rs.getInt("secondary_id");
+				Sekvenser sek = new Sekvenser(id, file, sec);
+				sequences.add(sek);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return sequences;
+	}
+	
+	
+	/**
 	Prints all sources in the db
 	**/
 	public void printSources() throws Exception{
@@ -201,7 +300,10 @@ class PsqlWriter{
 			System.out.println("ID: " + id + "\tSource name: " + name);
 		}
 	}
-
+	
+	/**
+	Gets all sources from the db
+	**/
 	public ArrayList<Source> getSources() throws Exception{
 		ArrayList<Source> sources = new ArrayList<Source>();
 		String sql = "select source_id, source_name from source;";
@@ -258,9 +360,9 @@ class PsqlWriter{
 			System.out.println("Profile id: " + pid + "\tAllele id: " + aid + "\tGen id: " + gid);
 		}
 	}
-/*
+
 	public static void main(String[] args){
 		new PsqlWriter();
-	}*/
+	}
 
 }

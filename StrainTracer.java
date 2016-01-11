@@ -211,6 +211,7 @@ class StrainTracer{
 		}
 	}
 
+
 	/**
 	Reads 'metasekvenser.txt' containing idenifiers from location, source and contributor.
 	**/ 

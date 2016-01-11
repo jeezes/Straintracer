@@ -23,6 +23,14 @@ public class Sekvenser{
 		storeFile(sekvens);
 		sekundær_id = 100;
 	}
+	
+	public Sekvenser(int sekvens_id, String sekvens, int sec){
+		this.sekvens_id = sekvens_id;
+		meta = new ArrayList<SekvensDiff>();
+		this.sekvens = sekvens;
+		storeFile(sekvens);
+		this.sekundær_id = sec;
+	}
 
 	public void addMeta(SekvensDiff s){
 		meta.add(s);
