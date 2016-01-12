@@ -19,12 +19,23 @@ CREATE TABLE source(
 	constraint source_pk primary key(source_id)
 );
 
+CREATE TABLE isolate(
+	isolate_id serial,
+	file_path text not null,
+	sequence_id integer,
+	constraint isolate_pk primary key(isolate_id)
+);
+
 CREATE TABLE sequence(
 	sequence_id serial,
 	seq text not null,
 	secondary_id integer,
+	isolate_id integer,
 	constraint sequence_pk primary key(sequence_id)
 );
+
+ALTER TABLE sequence add constraint sequence_isolate_fk foreign key(isolate_id) references isolate(isolate_id);
+ALTER TABLE isolate add constraint isolate_sequence_fk foreign key(sequence_id) references sequence(sequence_id);
 
 CREATE TABLE sequence_meta(
 	sequence_meta_id serial,
@@ -32,6 +43,7 @@ CREATE TABLE sequence_meta(
 	location_id integer,
 	contributor_id integer,
 	date_sampled timestamp with time zone,
+	report_path text,
 	constraint sequence_meta_pk primary key(sequence_meta_id)
 );
 

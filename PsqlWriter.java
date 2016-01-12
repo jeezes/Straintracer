@@ -148,7 +148,15 @@ class PsqlWriter{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	
+	}
+
+	public void addIsolate(String file){
+		try{
+			String sql = "insert into isolate(file_path) values('" + file + "');";
+			stmt.executeUpdate(sql);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addSequence(String file){

@@ -1,6 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
+
 import Input_data.*;
 import Sequence_data.*;
 
@@ -16,36 +15,14 @@ class StrainTracerInput{
 	private SekvensDiff diff;
 	private PsqlWriter psql;
 
-	StrainTracerInput(String file){
-		//Edit this back to how it was. no need for readFile
+	StrainTracerInput(String first, String last, String lat, String lon, String place, String sourceName, String seqFile){
 		psql = new PsqlWriter();
-		readFile(file);
 		
-	}
-
-	public void readFile(String file){
-		try{
-			Scanner reader = new Scanner(new File(file));
-			String[] line = reader.nextLine().split(";");
-			for(String l: line)
-				System.out.println(l);
-			String firstname = line[0];
-			String lastname = line[1];
-			double lat = Double.parseDouble(line[2]);
-			double lon = Double.parseDouble(line[3]);
-			String farmName = line[4];
-			String sourceName = line[5];
-			String seqFile = line[6];
-			
-			findSource(sourceName);
-			findContributor(firstname, lastname);
-			findLocation(lat, lon, farmName);
-			System.out.println("readFile: " + seqFile);
-			addSequence(seqFile);
-		
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		findSource(sourceName);
+		findContributor(first, last);
+		findLocation(Double.parseDouble(lat), Double.parseDouble(lon), place);
+		addSequence(seqFile);
+		addSequenceMeta();
 	}
 
 	public void findSource(String sourceName){
@@ -59,7 +36,10 @@ class StrainTracerInput{
 			}
 			if(source == null){
 				source = new Source(++index, sourceName);
-				psql.addSource(source);
+				//TEST
+				//psql.addSource(source);
+				int i = psql.addSource(source);
+				System.out.println("psql result: " + i);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -101,9 +81,7 @@ class StrainTracerInput{
 	}
 
 	public static void main(String[] args){
-		new StrainTracerInput(args[0]);
-		// Input is a file .txt with info about this:
-		//firstname, lastname, latitude, longitude, farm name, source, sequence fastq
-		//delimiter = ;
+		//firstname, lastname, latitude, longitude, location name, source, sequence fastq
+		new StrainTracerInput(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
 	}
 }
