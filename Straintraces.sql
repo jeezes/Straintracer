@@ -111,6 +111,7 @@ CREATE TABLE segment(
 CREATE TABLE segment_meta(
 	segment_meta_id serial,
 	analysis_id integer not null,
+	sequence_diff_id integer not null,
 	constraint segment_meta_pk primary key(segment_meta_id)
 );
 
@@ -121,7 +122,6 @@ CREATE TABLE segment_type(
 	segment_id integer not null,
 	segment_meta_id integer not null,
 	segment_description_id integer not null,
-	sequence_diff_id integer not null,
 	constraint segment_type_pk primary key(segment_type_id)
 );
 
@@ -148,7 +148,6 @@ ALTER TABLE segment_description add constraint segment_description_gen_fk foreig
 
 CREATE TABLE allele(
 	allele_id serial,
-	gen_id integer,
 	segment_type_id integer,
 	date_created timestamp with time zone not null,
 	constraint allele_pk primary key(allele_id)

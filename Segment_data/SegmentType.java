@@ -9,13 +9,22 @@ public class SegmentType{
 	SegmentDesc segmentDescription;
 	SekvensDiff sekvens;
 
-	public SegmentType(int id, Segment s, SegmentMeta m, SegmentDesc sd, SekvensDiff diff){
+	public SegmentType(int id, Segment s, SegmentMeta m, SegmentDesc sd, SekvensDiff diff){ //OLD
 		this.st_id = id;
 		this.segment = s;
 		this.meta = m;
 		this.segmentDescription = sd;
 		this.sekvens = diff;
 	}
+
+	public SegmentType(int id, Segment s, SegmentMeta m, SegmentDesc sd){
+		this.st_id = id;
+		this.segment = s;
+		this.meta = m;
+		this.segmentDescription = sd;
+		this.sekvens = null;
+	}
+
 
 	public int getId(){ return st_id; }
 

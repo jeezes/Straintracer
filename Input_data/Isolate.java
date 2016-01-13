@@ -2,18 +2,18 @@ package Input_data;
 
 import Sequence_data.Sekvenser;
 
-class Isolate{
+public class Isolate{
 	private String file_path;
 	private int id;
 	private Sekvenser sequence_id;
 
-	Isolate(int id, String path){
+	public Isolate(int id, String path){
 		this.id = id;
 		this.file_path = path;
 		sequence_id = null;
 	}
 
-	public setSequence(Sekvenser seq){
+	public void setSequence(Sekvenser seq){
 		this.sequence_id = seq;
 	}
 

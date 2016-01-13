@@ -2,9 +2,14 @@ import java.sql.*;
 import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
+
 import Input_data.*;
-import Allele_data.Gen;
+import Allele_data.*;
 import Sequence_data.*;
+import Analysis_data.*;
+import Segment_data.*;
+import SNP_data.*;
+import MLST_data.*;
 
 class PsqlWriter{
 	Connection c = null;
@@ -44,7 +49,14 @@ class PsqlWriter{
 	**/
 	public void printAnalysis(){
 		try{
-			String sql = "select";
+			String sql = "select analysis_id, method, analysis_date from analysis;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				int id = rs.getInt("analysis_id");
+				String method = rs.getString("method");
+				String date = rs.getString("analysis_date");
+				System.out.println("ANALYSIS ID: " + id + "\tmethod: " + method + "\tDate: " + date);
+			}
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -141,29 +153,161 @@ class PsqlWriter{
 		}
 	}
 	
-	public void addSource(Source source){
+	public int addSource(Source source){
+		int i = -1;
 		try{
 			String sql = "insert into source(source_name) values('" + source.getName() + "');";
+			i = stmt.executeUpdate(sql);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	public void addIsolate(Isolate isolate){
+		try{
+			String sql = "insert into isolate(file_path) values('" + isolate.getPath() + "');";
+			stmt.executeUpdate(sql);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addPoint(Punkter p){
+		try{
+			String sql = "insert into point(posision, point_meta_id, char1, char2) values('" + p.getPosition() + "', '" + p.getMeta().getId() + "', '" + p.getNuc1() + "', '" + p.getNuc2() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println(p.getId() + " did not get added to the db.");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addPointMeta(PunkterMeta p){
+		try{
+			String sql = "insert into point_meta(analysis_id, seq_diff1, seq_diff2) values('" + p.getAnalyse().getId() + "', '" + p.getSequence1() + "', '" + p.getSequence2() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println(p.getId() + " was not stored in the db.");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	Returns the last key for a table in the db.
+	Useful for knowing the primary key of last entry in a table.
+	@param table: The table name from the table we want to extract the last primary key from.
+	@return int: the value of the last primary key, else -1 if something went wrong or table name did not exist.
+	**/
+	public int getLastKey(String table){
+		try{
+			String sql = "select last_value from " + table + "_" + table + "_id_seq;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				return rs.getInt("last_value");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public void addSequence(String file){
+		try{
+			//System.out.println(file);
+			String sql = "insert into sequence(seq, secondary_id) values('" + file + "', '10')";
 			stmt.executeUpdate(sql);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 
-	public void addIsolate(String file){
+	public void addSegment(Segment s){
 		try{
-			String sql = "insert into isolate(file_path) values('" + file + "');";
-			stmt.executeUpdate(sql);
+			String sql = "insert into segment(start, stop, subsequence) values('" + s.getStart() + "', '" + s.getStop() + "', '" + s.getSequence() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println(s.getId() + " was not added to the db. Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addSegmentMeta(SegmentMeta sm){
+		try{
+			String sql = "insert into segment_meta(analysis_id, sequence_diff_id) values('" + sm.getAnalyse().getId() + "', '" + sm.getType().getId() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println(sm.getId() + " was not stored in the DB: Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addSegmentType(SegmentType st){
+		try{
+			String sql = "insert into segment_type(segment_id, segment_meta_id, segment_description_id) values('" + st.getSegment().getId() + "', '" + st.getMeta().getId() + "', '" + st.getDesc().getId() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println(st.getId() + " was not stored in the DB: Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addSegmentDescription(SegmentDesc sd){
+		try{
+			String sql = "insert into segment_description(gen_id, description) values('" + sd.getGen().getId() + "', '" + sd.getDesc() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i != 1) System.out.println(sd.getId() + " was not stored in the DB: Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addAllele(Allele a){
+		try{
+			String sql = "insert into allele(segment_type_id, date_created) values('" + a.getType().getId() + "', '" + a.getDate() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i != 1) System.out.println(a.getId() + " was not added to the DB. Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addProfiles(Profiles p){
+		try{
+			String sql = "insert into profiles(profile_name, date_created) values('" + p.getName() + "', '" + p.getDate() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i != 1) System.out.println(p.getId() + " was not added to the DB. Error code: " + i);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addSets(SetsDiff s){
+		try{
+			String sql = "insert into sets_diff(allele_id, profile_id) values('" + s.getAllele().getId() + "', '" + s.getProfile().getId() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i != 1) System.out.println("Sets with AlleleID: " + s.getAllele().getId() + " and profileId: " + s.getProfile().getId() + " was not added to the DB. Error code: " + i);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addSequence(String file){
+	public void addAnalysis(Analyse a){
 		try{
-			System.out.println(file);
-			String sql = "insert into sequence(seq, secondary_id) values('" + file + "', '10')";
-			stmt.executeUpdate(sql);
+			String sql = "insert into analysis(method, analysis_date) values('" + a.getMethod() + "', '" + a.getDate() + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println("Analysis " + a.getId() + " was not able to store in the db");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void addAnalysisSeg(AnalyseSeg a, SekvensDiff s){
+		try{
+			//String sql = "insert into analysis_sequences(analysis_id, sequence_diff_id) values('" + a.getId + "', '" + s.getId() + "');";
+			String sql = "insert into analysis_sequences(analysis_id, sequence_diff_id) values('" + a.getId() + "', '" + 1 + "');";
+			int i = stmt.executeUpdate(sql);
+			if(i < 1) System.out.println("Analysis_sequences " + a.getId() + " was not able to store in the db");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
