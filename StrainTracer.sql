@@ -112,10 +112,15 @@ CREATE TABLE segment(
 
 CREATE TABLE segment_meta(
 	segment_meta_id serial,
+<<<<<<< HEAD:StrainTracer.sql
 	analysis_id integer,
 	sequence_diff_id integer,
 	importdata varchar(3),
 	importedFrom varchar(64),
+=======
+	analysis_id integer not null,
+	sequence_diff_id integer not null,
+>>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055:Straintraces.sql
 	constraint segment_meta_pk primary key(segment_meta_id)
 );
 
