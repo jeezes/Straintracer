@@ -1,0 +1,18 @@
+<tool id="AddAllele" name="Add allele">
+	<description>Add alleles for a gene to the DB. The input file must be a multiple fasta file.</description>
+	<command interpreter="python">AddAllele.py $file $Stfile $importedFrom</command>
+	<inputs>
+		<param name="file" type="data" label="Input file of alleles for a gene" format="fasta"/>
+		<param name="Stfile" type="data" label="File containing all ST profiles for these alleles" format="txt" />
+		<param name="importedFrom" type="text" label="Site or source collected from" />
+	</inputs>
+	<outputs>
+		<data format="tabular" name="output" />
+	</outputs>
+	
+
+	<help>
+		Adds alleles from a given gen to the DB. 
+	</help>
+
+</tool>

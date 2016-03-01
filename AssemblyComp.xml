@@ -1,0 +1,19 @@
+<tool id="AssemblyComp" name="AssemblyComp">
+	<description>Finds new sequences and sends all sequences for analysis</description>
+	<command interpreter="python">AssemblyComp.py $sequence $report $reportright $reportleft $sequencetosrst2 $sequencetodb</command>
+	<inputs>
+		<param name="sequence" type="data" label="Sequence file" format="fasta"/>
+		<param name="report" type="data" label="Assembly report" format="txt" />
+		<param name="reportright" type="data" label="Report for right strand" format="txt" />
+		<param name="reportleft" type="data" label="Report for left strand" format="txt" />
+	</inputs>
+	<outputs>
+		<data format_source="sequence" name="sequencetosrst2" metadata_source="sequence" />
+		<data format="txt" name="sequencetodb" />
+	</outputs>
+	
+	<help>
+		Sends the new assembly to ResultComp and send sequences for analysis
+	</help>
+
+</tool>

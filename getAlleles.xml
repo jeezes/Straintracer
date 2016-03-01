@@ -1,0 +1,23 @@
+<tool id="GetAllele" name="Get allele">
+	<description>Writes all alleles and gen its gen to the DB. </description>
+	<command interpreter="python">GetAlleles.py -g $STProfiles $alleles </command>
+	<inputs>
+		Execute to extract all alleles with its gen and allele number
+	</inputs>
+	<outputs>
+		<data format="data" name="STProfiles" />
+		<data format="data" name="alleles" />
+	</outputs>
+	
+
+	<help>
+		Returns one file containing all alleles from the database. 
+		>glnA_100_12
+		gen = glnA
+		100 = allele number for Straintracer
+		12 = secondary allele number
+		
+		And a file with all the ST profiles.
+	</help>
+
+</tool>

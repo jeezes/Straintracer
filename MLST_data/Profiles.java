@@ -9,7 +9,7 @@ public class Profiles{
 	int profile_id;
 	Date date_created;
 
-	public Profiles(int id, String name){
+	public Profiles(int id, String name){ // name == complex
 		this.profile_id = id;
 		this.profile_name = name;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

@@ -26,6 +26,8 @@ public class Analyse{
 	public ArrayList<Punkter> getPunkter(){
 		return punkter;
 	}
+	
+	public void setMethod(String m){ metode = m; }
 
 	public int getId(){ return analyse_id; }
 

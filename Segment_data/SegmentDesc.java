@@ -26,6 +26,8 @@ public class SegmentDesc{
 
 	public Gen getGen(){ return gen; }
 
+	public void setGen(Gen g){ gen = g; }
+
 	public void print(){
 		System.out.println("SegmentDescID: " + segdesc_id + "\tDescription: " + description);
 	}	

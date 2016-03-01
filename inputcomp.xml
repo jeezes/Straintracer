@@ -1,0 +1,49 @@
+<tool id="InputComp" name="InputComp">
+	<description>Add information about who sampled this bacteria, where it was sampled and from which source it was gathered from</description>
+	<command interpreter="python">InputWrapper.py $firstname $lastname $latitude $longitude $place_name $date $source $right $left $output $rightstrand $leftstrand </command>
+	<inputs>
+		<param name="firstname" type="text" label="First name" />
+		<param name="lastname" type="text" label="Last name"/>
+		<param name="latitude" type="text" label="Latitude" value="00.000000" />
+		<param name="longitude" type="text" label="Longitude" value="00.000000" />
+		<param name="place_name" type="text" label="Location name" />
+		<param name="date" type="text" label="Date sampled" value="dd/mm/yyyy"/>
+		<param name="source" type="text" label="Source sampled from" />
+		<param name="right" type="data" label="Right stranded sequence file" format="fastq"/>
+		<param name="left" type="data" label="Left stranded sequence file" format="fastq"/>
+	</inputs>
+	<outputs>
+		<data format="data" name="output" />
+		<data format_source="right" name="rightstrand" metadata_source="right" />
+		<data format_source="left" name="leftstrand" metadata_source="left" />
+	</outputs>
+	
+	<tests>
+		<test>
+			<param name="test_input" value="test_input.txt"/>
+			<param name="firstname" value="Jonas" />
+			<param name="lastname" value="Evensen" />
+			<param name="latitude" value="12.345678" />
+			<param name="longitude" value="12.345678" />
+			<param name="date" value="01/01/2016" />
+			<param name="place_name" value="Oslo" />
+			<param name="source" value="Chicken" />
+			<param name="sequence" value="test.txt" />
+		</test>
+	</tests>
+
+	<help>
+		This tools gather information from the user about where a bacterial isolate has been sampled, and when it was sampled and by whom.
+
+		Inputs:
+		Firstname - Firstname of contributor
+		Lastname - lastname of contributor
+		latitude and longitude - coordinates where the sample was taken from (optional)
+		Location name - name of the place the sample was extracted
+		Date - date when the sample was extracted
+		Source - source the sample was taken from
+		Right - right read of the sample
+		Left - left read of the sample
+	</help>
+
+</tool>

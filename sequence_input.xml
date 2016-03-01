@@ -1,0 +1,16 @@
+<tool id="SequenceInput" name="Sequence input">
+	<description>Add information about who sampled this bacteria, where it was sampled and from which source it was gathered from</description>
+	<command interpreter="python">SOMETHING.py $input $output</command>
+	<inputs>
+		<param name="input" type="data" label="Scaffolds" format="fasta"/>
+	</inputs>
+	<outputs>
+		<data format="fasta" name="Scaffolds" />
+	</outputs>
+	
+
+	<help>
+		This tools gather information from the user about where a bacterial isolate has been sampled, and when it was sampled and by whom
+	</help>
+
+</tool>

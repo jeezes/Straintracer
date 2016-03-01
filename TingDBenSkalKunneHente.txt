@@ -1,3 +1,18 @@
+spørring for å finne alle allelere i gen 'glnA' som hører til i en ST profil:
+
+select s.profile_id, a.allele_id, a.secondary_id, g.gen_id from allele a inner join segment_type st on st.segment_type_id = a.segment_type_id join segment_description sd on sd.segment_description_id = st.segment_description_id join gen g on g.gen_id = sd.gen_id join sets_diff s on s.allele_id = a.allele_id where g.gen_name = 'glnA';
+
+
+Spørring som finner alle alleler for en profil med gener:
+
+select s.profile_id, g.gen_name, a.allele_id, a.secondary_id from allele a inner join segment_type st on st.segment_type_id = a.segment_type_id join segment_description sd on sd.segment_description_id = st.segment_description_id join gen g on g.gen_id = sd.gen_id join sets_diff s on s.allele_id = a.allele_id where s.profile_id = 'x';
+
+Henter alle alleler for et gen:
+
+select a.allele_id, se.segment_id, a.secondary_id, a.importedFrom from allele a inner join segment_type st on a.segment_type_id = st.segment_type_id join segment se on se.segment_id = st.segment_id join segment_description sd on sd.segment_description_id = st.segment_description_id join gen g on sd.gen_id = g.gen_id where g.gen_name = 'glnA';
+
+
+
 Ting databasen skal kunne klare å hente.
 
 1. En ST-profil skal kunne vite hvilket set (sets) som den hører til: Ferdig
