@@ -4,7 +4,6 @@ import java.util.*;
 import java.nio.channels.FileChannel;
 =======
 import java.io.PrintWriter;
->>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055
 
 /**
 Takes all arguments and send these to the StrainTracerInput where it gets stored.

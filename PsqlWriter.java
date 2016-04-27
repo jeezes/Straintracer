@@ -32,7 +32,7 @@ class PsqlWriter{
 			//printSequences();
 			//printAnalysis(); // and results from each
 			//addGenesAndAlleles();
-			
+			printProfiles();
 			//removeTables();
 			//addTables();
 			//populateDB();
