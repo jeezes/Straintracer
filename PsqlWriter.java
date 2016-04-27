@@ -32,10 +32,11 @@ class PsqlWriter{
 			//printSequences();
 			//printAnalysis(); // and results from each
 			//addGenesAndAlleles();
-			printProfiles();
+			
 			//removeTables();
 			//addTables();
 			//populateDB();
+			getAlleleSecondId();
 		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -150,6 +151,22 @@ class PsqlWriter{
 			}
 		}
 		return output;
+		
+	}
+
+	public void getAlleleSecondId() throws Exception{
+		ArrayList<Gen> genes = getAllGenes();
+		String output = "";
+		for(Gen g: genes){
+			String sql = "select a.secondary_id, se.subsequence from allele a inner join segment_type st on a.segment_type_id = st.segment_type_id join segment se on se.segment_id = st.segment_id join segment_description sd on sd.segment_description_id = st.segment_description_id join gen g on sd.gen_id = g.gen_id where g.gen_name = '" + g.getName() + "';";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				int id = rs.getInt("secondary_id");
+				String sequence = rs.getString("subsequence");
+				output += ">" + g.getName() + "_" + id + "\n" + sequence + "\n";
+			}
+		}
+		System.out.println(output);
 		
 	}
 	

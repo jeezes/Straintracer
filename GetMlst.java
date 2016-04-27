@@ -8,11 +8,11 @@ public class GetMlst{
 	public GetMlst(String option, String bac, String importedFrom){
 		psql = new PsqlWriter();
 		//System.out.println("Option: " + option + "\tbac: " + bac + "\tImportedFrom: " + importedFrom);
-		if(option.equalsIgnoreCase("-i")){ // i == only adds alleles
+		if(option.equalsIgnoreCase("-i")){
 			addAllele(bac, importedFrom);
-		}else if(option.equalsIgnoreCase("-ist")){ // ist == only adds profiles
+		}else if(option.equalsIgnoreCase("-ist")){ //Input st
 			addStProfile(bac, importedFrom);
-		}else if(option.equalsIgnoreCase("-g")){ // extracts profiles and alleles
+		}else if(option.equalsIgnoreCase("-g")){
 			getAllele(bac, importedFrom);
 		}else{
 			System.out.println("Wrong parameters used. Use -i to add alleles and genes. Use -ist to add ST profiles. Genes and alleles should be added first.");

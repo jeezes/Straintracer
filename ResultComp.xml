@@ -4,7 +4,7 @@
 	<inputs>
 		<param name="input" type="data" label="Data from InputComp" format="data" />
 		<param name="assembly" type="data" label="Data from AssemblyComp" format="txt" />
-		<param name="result" type="data" label="Data from analysis" format="fasta"/>
+		<param name="result" type="data" label="Data from analysis" format="text"/>
 	</inputs>
 	<outputs>
 		<data format="data" name="output" />

@@ -4,7 +4,6 @@ import java.io.File;
 /**
 Sends all information from one execution of the program and stores it in the StrainTracer 
 All comments should be included when galaxy is set on the invivo server
-Skal sende data til PsqlWriter for lagring
 **/
 class ResultComp{
 	private String inputFile, assemblyFile, resultFile;

@@ -19,10 +19,6 @@ class StrainTracerInput{
 	private SekvensDiff diff;
 	private PsqlWriter psql;
 
-<<<<<<< HEAD
-=======
-	//StrainTracerInput(String first, String last, String lat, String lon, String place, String sourceName, String seqFile){
->>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055
 	StrainTracerInput(String inputFile, String sequenceFile){
 		psql = new PsqlWriter();
 		isolate = new ArrayList<Isolate>();
@@ -40,14 +36,9 @@ class StrainTracerInput{
 				double lat = Double.parseDouble(line[2]);
 				double lon = Double.parseDouble(line[3]);
 				String place = line[4];
-<<<<<<< HEAD
 				String dateSampled = line[5];
 				String sourceName = line[6];
 				String isolateFile = line[7];
-=======
-				String sourceName = line[5];
-				String isolateFile = line[6];
->>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055
 				findSource(sourceName);
 				findContributor(first, last);
 				findLocation(lat, lon, place);
@@ -63,15 +54,12 @@ class StrainTracerInput{
 			Scanner read = new Scanner(new File(file));
 			while(read.hasNext()){
 				String[] line = read.nextLine().split(";");
-<<<<<<< HEAD
 				String sequence_path = line[0];
 				String rightStrand = line[1];
 				String leftStrand = line[2];
 				String assembly = line[3];
 
 				
-=======
->>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -133,7 +121,6 @@ class StrainTracerInput{
 	}
 
 	public void addIsolate(String seq){
-<<<<<<< HEAD
 		File isolateDir = new File("isolates/" + contributor.getFirstName().toLowerCase() + "_" + contributor.getLastName().toLowerCase() + "/");
 		int index = psql.getLastKey("isolate");
 		String[] iso = seq.split(",");
@@ -154,14 +141,6 @@ class StrainTracerInput{
 			psql.addIsolate(tmp);
 			isolate.add(tmp);
 
-=======
-		int index = psql.getLastKey("isolate");
-		String[] iso = seq.split(",");
-		for(String s: iso){
-			Isolate tmp = new Isolate(++index, s);
-			psql.addIsolate(tmp);
-			isolate.add(tmp);
->>>>>>> 2fc14e94cec8dabb301e259d80477ce89e6da055
 		}
 	}
 

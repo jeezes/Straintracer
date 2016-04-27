@@ -4,6 +4,7 @@ from shutil import copyfile
 class PythonWrapper:
 	def __init__(self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12):
 		workingdir = os.getcwd() + '/'
+		print workingdir
 		copyfile('/home/jonas/galaxy/tools/straintracer/InputComp.class', workingdir + "/InputComp.class")
 		isolateDir = "/home/jonas/galaxy/tools/straintracer/data/isolates/"
 		userDir = "%s%s%s" % (isolateDir, arg1, arg2)
